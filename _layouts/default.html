@@ -288,15 +288,17 @@
 
         /* ===== LINKS ===== */
         main a {
-            color: var(--accent);
+            background: linear-gradient(90deg, #2997ff, #af52de);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             text-decoration: none;
-            border-bottom: 1px solid rgba(41,151,255,0.3);
-            transition: all var(--transition);
+            transition: opacity var(--transition), filter var(--transition);
         }
 
         main a:hover {
-            color: #409cff;
-            border-bottom-color: var(--accent);
+            opacity: 0.75;
+            filter: brightness(1.15);
         }
 
         /* ===== LISTS ===== */
