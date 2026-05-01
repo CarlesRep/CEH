@@ -1,0 +1,33 @@
+# Site Configuration
+title: CEH v5.0 Study Materials
+description: Complete Study Guide for Certified Ethical Hacker Certification
+
+# GitHub
+github_user: CarlesRep
+repository: ceh-study
+
+# Jekyll
+theme: jekyll-theme-slate
+markdown: kramdown
+kramdown:
+  input: GFM
+  hard_wrap: false
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+    values:
+      layout: "default"
+
+# Plugins
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+
+# Exclude
+exclude:
+  - node_modules
+  - vendor
+  - .git
+  - .gitignore
