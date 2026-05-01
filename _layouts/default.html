@@ -211,87 +211,9 @@
             padding-top: 64px;
         }
 
-        /* ===== SIDEBAR ===== */
-        .sidebar {
-            position: fixed;
-            top: 64px;
-            left: 0;
-            width: 260px;
-            height: calc(100vh - 64px);
-            background: var(--surface);
-            border-right: 1px solid var(--edge);
-            overflow-y: auto;
-            overflow-x: hidden;
-            z-index: 100;
-            padding: 24px 0;
-            scrollbar-width: thin;
-            scrollbar-color: var(--surface-high) transparent;
-        }
-
-        .sidebar::-webkit-scrollbar {
-            width: 4px;
-        }
-
-        .sidebar::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        .sidebar::-webkit-scrollbar-thumb {
-            background: var(--surface-high);
-            border-radius: 2px;
-        }
-
-        .sidebar-section {
-            margin-bottom: 8px;
-        }
-
-        .sidebar-label {
-            font-family: var(--font-mono);
-            font-size: 10px;
-            font-weight: 500;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            padding: 0 20px 8px;
-        }
-
-        .sidebar-link {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 8px 20px;
-            font-size: 13.5px;
-            font-weight: 400;
-            color: var(--text-secondary);
-            text-decoration: none;
-            border: none;
-            border-left: 2px solid transparent;
-            transition: all var(--transition);
-            line-height: 1.4;
-        }
-
-        .sidebar-link:hover {
-            color: var(--text-primary);
-            background: var(--signal-faint);
-            border-left-color: var(--signal);
-        }
-
-        .sidebar-link.active {
-            color: var(--signal);
-            background: var(--signal-faint);
-            border-left-color: var(--signal);
-            font-weight: 500;
-        }
-
-        .sidebar-divider {
-            height: 1px;
-            background: var(--edge);
-            margin: 12px 20px;
-        }
-
         /* ===== MAIN CONTENT ===== */
         .main-content {
-            margin-left: 260px;
+            margin-left: 0;
             flex: 1;
             min-width: 0;
         }
@@ -742,7 +664,7 @@
 
         /* ===== FOOTER ===== */
         .site-footer {
-            margin-left: 260px;
+            margin-left: 0;
             border-top: 1px solid var(--edge);
             padding: 32px 48px;
             display: flex;
@@ -801,15 +723,6 @@
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
-            .sidebar {
-                display: none;
-            }
-
-            .main-content,
-            .site-footer {
-                margin-left: 0;
-            }
-
             .content-wrapper {
                 padding: 40px 24px 60px;
             }
@@ -894,54 +807,6 @@
     <!-- ===== LAYOUT ===== -->
     <div class="page-wrapper">
 
-        <!-- SIDEBAR -->
-        <aside class="sidebar">
-            <div class="sidebar-section">
-                <div class="sidebar-label">Navigation</div>
-                <a href="{{ '/' | relative_url }}" class="sidebar-link">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-                        <polyline points="9,22 9,12 15,12 15,22"/>
-                    </svg>
-                    Home
-                </a>
-            </div>
-
-            <div class="sidebar-divider"></div>
-
-            <div class="sidebar-section">
-                <div class="sidebar-label">Appendix</div>
-                <a href="{{ '/' | relative_url }}Appendix-AI/AC_01_HowAIWorks" class="sidebar-link">· AI Appendix</a>
-                <a href="{{ '/' | relative_url }}Appendix-Hacking_Essentials1/AppA_01_OSConcepts" class="sidebar-link">· Hacking Essentials</a>
-            </div>
-
-            <div class="sidebar-divider"></div>
-
-            <div class="sidebar-section">
-                <div class="sidebar-label">CEH Modules</div>
-                <a href="{{ '/' | relative_url }}Modulo01-Introduction_to_Ethical_Hacking/M01_01_Fundamentos_Seguridad" class="sidebar-link">01 · Introduction</a>
-                <a href="{{ '/' | relative_url }}Modulo02-Footprinting_and_Reconnaisance/M02_01_Footprinting_Overview" class="sidebar-link">02 · Footprinting</a>
-                <a href="{{ '/' | relative_url }}Modulo03-Scanning_Networks/M03_01_Conceptos_Base" class="sidebar-link">03 · Scanning</a>
-                <a href="{{ '/' | relative_url }}Modulo04-Enumeration/M04_01_Conceptos_Puertos" class="sidebar-link">04 · Enumeration</a>
-                <a href="{{ '/' | relative_url }}Modulo05-Vulnerability_Analysis/M05_01_VulnerabilityAssessmentConcepts" class="sidebar-link">05 · Vuln Analysis</a>
-                <a href="{{ '/' | relative_url }}Modulo06-System_Hacking/M06_01_GainingAccess" class="sidebar-link">06 · System Hacking</a>
-                <a href="{{ '/' | relative_url }}Modulo07-Malware_Threats/M07_01_MalwareConcepts" class="sidebar-link">07 · Malware</a>
-                <a href="{{ '/' | relative_url }}Modulo08-Sniffing/M08_Sniffing" class="sidebar-link">08 · Sniffing</a>
-                <a href="{{ '/' | relative_url }}Modulo09-Social_Engineering/M09_01_SocialEngineeringConcepts" class="sidebar-link">09 · Social Eng.</a>
-                <a href="{{ '/' | relative_url }}Modulo10-Deniel_of_Service/M10_01_DoSDDoSConcepts" class="sidebar-link">10 · DoS / DDoS</a>
-                <a href="{{ '/' | relative_url }}Modulo11-Session_Hijacking/M11_01_SessionHijackingConcepts" class="sidebar-link">11 · Session Hijacking</a>
-                <a href="{{ '/' | relative_url }}Modulo12-Evadins_IDS_Firewalls_and_Honeypots/M12_01_IDS_IPS_FirewallConcepts" class="sidebar-link">12 · IDS Evasion</a>
-                <a href="{{ '/' | relative_url }}Modulo13-Hacking_Web_Servers/M13_01_WebServerConcepts" class="sidebar-link">13 · Web Servers</a>
-                <a href="{{ '/' | relative_url }}Modulo14-Hacking_Web_Applications/M14_01_WebApplicationConcepts" class="sidebar-link">14 · Web Apps</a>
-                <a href="{{ '/' | relative_url }}Modulo15-SQL_Injection/M15_01_SQLInjectionConcepts" class="sidebar-link">15 · SQL Injection</a>
-                <a href="{{ '/' | relative_url }}Modulo16-Hacking_Wireless_Networks/M16_01_WirelessConcepts" class="sidebar-link">16 · Wireless</a>
-                <a href="{{ '/' | relative_url }}Modulo17-Hacking_Mobile_Platforms/M17_01_MobilePlatformAttackVectors" class="sidebar-link">17 · Mobile</a>
-                <a href="{{ '/' | relative_url }}Modulo18-IoT_and_OT_Hacking/M18_01_IoTHackingConceptsAndAttacks" class="sidebar-link">18 · IoT / OT</a>
-                <a href="{{ '/' | relative_url }}Modulo19-Cloud_Computing/M19_01_CloudComputingConcepts" class="sidebar-link">19 · Cloud</a>
-                <a href="{{ '/' | relative_url }}Modulo20-Cryptography/M20_01_CryptographyConceptsAndAlgorithms" class="sidebar-link">20 · Cryptography</a>
-            </div>
-        </aside>
-
         <!-- MAIN -->
         <div class="main-content">
             <div class="content-wrapper">
@@ -982,14 +847,6 @@
         // Scroll to top button
         window.addEventListener('scroll', () => {
             document.getElementById('scrollTop').classList.toggle('visible', window.scrollY > 400);
-        });
-
-        // Highlight active sidebar link
-        const path = window.location.pathname;
-        document.querySelectorAll('.sidebar-link').forEach(link => {
-            if (link.getAttribute('href') && path.includes(link.getAttribute('href').replace(/\/$/, ''))) {
-                link.classList.add('active');
-            }
         });
 
         // Build module table of contents
