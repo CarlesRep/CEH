@@ -1,10 +1,10 @@
 # Site Configuration
-title: CEH v5.0 Study Materials
-description: Complete Study Guide for Certified Ethical Hacker Certification
+title: CEH v13 Notas Estudio
+description: Guía de Estudio para la Certificación de Hacker Ético
 
 # GitHub
 github_user: CarlesRep
-repository: ceh-study
+repository: CEH
 
 # Jekyll
 markdown: kramdown
