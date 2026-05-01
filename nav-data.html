@@ -9,7 +9,7 @@ window.NAV_PAGES = [
       {
         url: "{{ page.url | relative_url }}",
         title: "{{ page.title | default: page.name | replace: '.md', '' | replace: '-', ' ' }}",
-        module: "{{ page.url | split: '/' | first }}"
+        module: "{{ page.url | remove_first: '/' | split: '/' | first }}"
       }{{ forloop.last | unless: true | append: ',' }}
     {%- endunless -%}
   {%- endfor -%}
