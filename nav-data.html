@@ -1,0 +1,30 @@
+---
+permalink: /nav-data.js
+layout: null
+---
+window.NAV_PAGES = [
+  {%- assign sorted_pages = site.pages | sort: "url" -%}
+  {%- for page in sorted_pages -%}
+    {%- unless page.url == "/" or page.url == "/index.html" or page.url == "/404.html" or page.name == "nav-data.html" -%}
+      {
+        url: "{{ page.url | relative_url }}",
+        title: "{{ page.title | default: page.name | replace: '.md', '' | replace: '-', ' ' }}"
+      }{{ forloop.last | unless: true | append: ',' }}
+    {%- endunless -%}
+  {%- endfor -%}
+];
+
+window.findPageIndex = function(pathname) {
+  const cleanPath = pathname.replace(/\/$/, '');
+  return window.NAV_PAGES.findIndex(p => p.url === cleanPath || p.url === cleanPath + '/');
+};
+
+window.getNavigation = function() {
+  const currentIndex = window.findPageIndex(window.location.pathname);
+  if (currentIndex === -1) return { prev: null, next: null };
+
+  return {
+    prev: currentIndex > 0 ? window.NAV_PAGES[currentIndex - 1] : null,
+    next: currentIndex < window.NAV_PAGES.length - 1 ? window.NAV_PAGES[currentIndex + 1] : null
+  };
+};

@@ -297,7 +297,7 @@
         }
 
         .content-wrapper {
-            max-width: 860px;
+            max-width: 1100px;
             margin: 0 auto;
             padding: 60px 48px 80px;
         }
@@ -396,7 +396,7 @@
         main > h1:first-child,
         .article-title {
             font-family: var(--font-display);
-            font-size: clamp(32px, 5vw, 52px);
+            font-size: clamp(32px, 5vw, 36px);
             font-weight: 800;
             letter-spacing: -1px;
             margin: 0 0 16px;
@@ -868,31 +868,7 @@
                 {{ content }}
 
                 <!-- NAVEGACIÓN ANTERIOR / SIGUIENTE -->
-                <nav class="page-nav">
-                    {% if page.previous %}
-                        <a href="{{ page.previous.url | relative_url }}" class="page-nav-btn prev">
-                            <span class="page-nav-label">← Previous</span>
-                            <span class="page-nav-title">{{ page.previous.title | default: page.previous.path | split: "/" | last | replace: ".md", "" | replace: "-", " " }}</span>
-                        </a>
-                    {% else %}
-                        <div class="page-nav-btn prev disabled">
-                            <span class="page-nav-label">← Previous</span>
-                            <span class="page-nav-title">First page</span>
-                        </div>
-                    {% endif %}
-
-                    {% if page.next %}
-                        <a href="{{ page.next.url | relative_url }}" class="page-nav-btn next">
-                            <span class="page-nav-label">Next →</span>
-                            <span class="page-nav-title">{{ page.next.title | default: page.next.path | split: "/" | last | replace: ".md", "" | replace: "-", " " }}</span>
-                        </a>
-                    {% else %}
-                        <div class="page-nav-btn next disabled">
-                            <span class="page-nav-label">Next →</span>
-                            <span class="page-nav-title">Last page</span>
-                        </div>
-                    {% endif %}
-                </nav>
+                <nav class="page-nav" id="pageNav"></nav>
 
             </div>
         </div>
@@ -911,6 +887,7 @@
     <!-- SCROLL TO TOP -->
     <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
+    <script src="{{ '/nav-data.js' | relative_url }}"></script>
     <script>
         // Scroll to top button
         window.addEventListener('scroll', () => {
@@ -924,6 +901,62 @@
                 link.classList.add('active');
             }
         });
+
+        // Build navigation dynamically from nav-data
+        function buildPageNavigation() {
+            const navContainer = document.getElementById('pageNav');
+            if (!navContainer) return;
+
+            const nav = window.getNavigation();
+
+            // Previous button
+            if (nav.prev) {
+                const prevBtn = document.createElement('a');
+                prevBtn.href = nav.prev.url;
+                prevBtn.className = 'page-nav-btn prev';
+                prevBtn.innerHTML = `
+                    <span class="page-nav-label">← Previous</span>
+                    <span class="page-nav-title">${nav.prev.title}</span>
+                `;
+                navContainer.appendChild(prevBtn);
+            } else {
+                const prevBtn = document.createElement('div');
+                prevBtn.className = 'page-nav-btn prev disabled';
+                prevBtn.innerHTML = `
+                    <span class="page-nav-label">← Previous</span>
+                    <span class="page-nav-title">First page</span>
+                `;
+                navContainer.appendChild(prevBtn);
+            }
+
+            // Next button
+            if (nav.next) {
+                const nextBtn = document.createElement('a');
+                nextBtn.href = nav.next.url;
+                nextBtn.className = 'page-nav-btn next';
+                nextBtn.innerHTML = `
+                    <span class="page-nav-label">Next →</span>
+                    <span class="page-nav-title">${nav.next.title}</span>
+                `;
+                navContainer.appendChild(nextBtn);
+            } else {
+                const nextBtn = document.createElement('div');
+                nextBtn.className = 'page-nav-btn next disabled';
+                nextBtn.innerHTML = `
+                    <span class="page-nav-label">Next →</span>
+                    <span class="page-nav-title">Last page</span>
+                `;
+                navContainer.appendChild(nextBtn);
+            }
+        }
+
+        // Build navigation when nav-data is loaded
+        if (window.NAV_PAGES) {
+            buildPageNavigation();
+        } else {
+            // Fallback: wait for nav-data to load
+            document.addEventListener('DOMContentLoaded', buildPageNavigation);
+        }
     </script>
 </body>
 </html>
