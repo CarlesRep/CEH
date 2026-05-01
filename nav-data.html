@@ -8,23 +8,42 @@ window.NAV_PAGES = [
     {%- unless page.url == "/" or page.url == "/index.html" or page.url == "/404.html" or page.name == "nav-data.html" -%}
       {
         url: "{{ page.url | relative_url }}",
-        title: "{{ page.title | default: page.name | replace: '.md', '' | replace: '-', ' ' }}"
+        title: "{{ page.title | default: page.name | replace: '.md', '' | replace: '-', ' ' }}",
+        module: "{{ page.url | split: '/' | first }}"
       }{{ forloop.last | unless: true | append: ',' }}
     {%- endunless -%}
   {%- endfor -%}
 ];
 
-window.findPageIndex = function(pathname) {
+window.getModuleForPath = function(pathname) {
   const cleanPath = pathname.replace(/\/$/, '');
-  return window.NAV_PAGES.findIndex(p => p.url === cleanPath || p.url === cleanPath + '/');
+  const parts = cleanPath.split('/').filter(p => p);
+  return parts.length > 0 ? parts[0] : null;
+};
+
+window.getModulePages = function(module) {
+  return window.NAV_PAGES.filter(p => p.module === module);
+};
+
+window.findPageIndex = function(pathname, pages) {
+  const cleanPath = pathname.replace(/\/$/, '');
+  return pages.findIndex(p => p.url === cleanPath || p.url === cleanPath + '/');
 };
 
 window.getNavigation = function() {
-  const currentIndex = window.findPageIndex(window.location.pathname);
-  if (currentIndex === -1) return { prev: null, next: null };
+  const currentModule = window.getModuleForPath(window.location.pathname);
+  if (!currentModule) return { prev: null, next: null, module: null, modulePages: [] };
+
+  const modulePages = window.getModulePages(currentModule);
+  const currentIndex = window.findPageIndex(window.location.pathname, modulePages);
+
+  if (currentIndex === -1) return { prev: null, next: null, module: currentModule, modulePages };
 
   return {
-    prev: currentIndex > 0 ? window.NAV_PAGES[currentIndex - 1] : null,
-    next: currentIndex < window.NAV_PAGES.length - 1 ? window.NAV_PAGES[currentIndex + 1] : null
+    prev: currentIndex > 0 ? modulePages[currentIndex - 1] : null,
+    next: currentIndex < modulePages.length - 1 ? modulePages[currentIndex + 1] : null,
+    module: currentModule,
+    modulePages: modulePages,
+    currentIndex: currentIndex
   };
 };

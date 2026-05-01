@@ -653,6 +653,93 @@
             cursor: default;
         }
 
+        /* ===== MODULE TOC ===== */
+        .module-toc {
+            margin: 40px 0 32px;
+            padding: 20px 24px;
+            background: var(--surface-raised);
+            border: 1px solid var(--edge);
+            border-radius: var(--radius-lg);
+        }
+
+        .module-toc-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            user-select: none;
+            margin-bottom: 12px;
+        }
+
+        .module-toc-header:hover {
+            color: var(--signal);
+        }
+
+        .module-toc-toggle {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            font-size: 12px;
+            transition: transform var(--transition);
+        }
+
+        .module-toc-toggle.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        .module-toc-title {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        .module-toc-list {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .module-toc-list.hidden {
+            display: none;
+        }
+
+        .module-toc-item {
+            padding: 0;
+            margin: 0;
+        }
+
+        .module-toc-link {
+            display: block;
+            padding: 8px 12px;
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            border-radius: var(--radius-sm);
+            transition: all var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .module-toc-link:hover {
+            color: var(--text-primary);
+            background: var(--signal-faint);
+            border-left-color: var(--signal);
+        }
+
+        .module-toc-link.active {
+            color: var(--signal);
+            background: var(--signal-faint);
+            border-left-color: var(--signal);
+            font-weight: 600;
+        }
+
         /* ===== FOOTER ===== */
         .site-footer {
             margin-left: 260px;
@@ -864,6 +951,9 @@
                 <div class="article-badge">CEH v5.0</div>
                 {% endif %}
 
+                <!-- Module TOC -->
+                <div id="moduleToc"></div>
+
                 <!-- Contenido del markdown -->
                 {{ content }}
 
@@ -902,6 +992,56 @@
             }
         });
 
+        // Build module table of contents
+        function buildModuleToc() {
+            const tocContainer = document.getElementById('moduleToc');
+            if (!tocContainer) return;
+
+            const nav = window.getNavigation();
+            if (!nav.module || nav.modulePages.length <= 1) return;
+
+            const tocDiv = document.createElement('div');
+            tocDiv.className = 'module-toc';
+
+            // Header
+            const header = document.createElement('div');
+            header.className = 'module-toc-header';
+            header.innerHTML = `
+                <span class="module-toc-toggle">▼</span>
+                <span class="module-toc-title">En este módulo</span>
+            `;
+            header.addEventListener('click', () => {
+                const list = tocDiv.querySelector('.module-toc-list');
+                const toggle = tocDiv.querySelector('.module-toc-toggle');
+                list.classList.toggle('hidden');
+                toggle.classList.toggle('collapsed');
+            });
+            tocDiv.appendChild(header);
+
+            // List
+            const list = document.createElement('ul');
+            list.className = 'module-toc-list';
+
+            nav.modulePages.forEach((page, index) => {
+                const li = document.createElement('li');
+                li.className = 'module-toc-item';
+
+                const link = document.createElement('a');
+                link.href = page.url;
+                link.className = 'module-toc-link';
+                if (index === nav.currentIndex) {
+                    link.classList.add('active');
+                }
+                link.textContent = page.title;
+
+                li.appendChild(link);
+                list.appendChild(li);
+            });
+
+            tocDiv.appendChild(list);
+            tocContainer.appendChild(tocDiv);
+        }
+
         // Build navigation dynamically from nav-data
         function buildPageNavigation() {
             const navContainer = document.getElementById('pageNav');
@@ -924,7 +1064,7 @@
                 prevBtn.className = 'page-nav-btn prev disabled';
                 prevBtn.innerHTML = `
                     <span class="page-nav-label">← Previous</span>
-                    <span class="page-nav-title">First page</span>
+                    <span class="page-nav-title">First page in module</span>
                 `;
                 navContainer.appendChild(prevBtn);
             }
@@ -944,18 +1084,22 @@
                 nextBtn.className = 'page-nav-btn next disabled';
                 nextBtn.innerHTML = `
                     <span class="page-nav-label">Next →</span>
-                    <span class="page-nav-title">Last page</span>
+                    <span class="page-nav-title">Last page in module</span>
                 `;
                 navContainer.appendChild(nextBtn);
             }
         }
 
-        // Build navigation when nav-data is loaded
+        // Build toc and navigation when nav-data is loaded
         if (window.NAV_PAGES) {
+            buildModuleToc();
             buildPageNavigation();
         } else {
             // Fallback: wait for nav-data to load
-            document.addEventListener('DOMContentLoaded', buildPageNavigation);
+            document.addEventListener('DOMContentLoaded', () => {
+                buildModuleToc();
+                buildPageNavigation();
+            });
         }
     </script>
 </body>
