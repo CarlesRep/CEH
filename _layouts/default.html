@@ -6,7 +6,7 @@
     <title>{{ page.title | default: site.title }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* ===== RESET & BASE ===== */
         *, *::before, *::after {
@@ -16,39 +16,31 @@
         }
 
         :root {
-            --ink: #0d0d0f;
-            --ink-soft: #1a1a1f;
-            --ink-mid: #242430;
-            --surface: #16161c;
-            --surface-raised: #1e1e28;
-            --surface-high: #252533;
-            --edge: rgba(255,255,255,0.07);
-            --edge-bright: rgba(255,255,255,0.12);
+            --bg: #000000;
+            --surface: #111111;
+            --surface-raised: #1c1c1e;
+            --surface-high: #2c2c2e;
+            --border: rgba(255,255,255,0.1);
+            --border-bright: rgba(255,255,255,0.15);
 
-            --signal: #00e5ff;
-            --signal-dim: rgba(0,229,255,0.15);
-            --signal-glow: rgba(0,229,255,0.25);
-            --signal-faint: rgba(0,229,255,0.06);
+            --accent: #2997ff;
+            --accent-dim: rgba(41,151,255,0.12);
+            --accent-faint: rgba(41,151,255,0.06);
 
-            --amber: #ffb800;
-            --amber-dim: rgba(255,184,0,0.15);
+            --amber: #ff9f0a;
+            --amber-dim: rgba(255,159,10,0.12);
 
-            --danger: #ff4757;
-            --success: #2ed573;
+            --text-primary: #f5f5f7;
+            --text-secondary: #a1a1a6;
+            --text-muted: #6e6e73;
+            --text-code: #64d2ff;
 
-            --text-primary: #f0f0f5;
-            --text-secondary: #9090a8;
-            --text-muted: #5a5a70;
-            --text-code: #00e5ff;
-
-            --font-display: 'Syne', sans-serif;
             --font-body: 'Inter', sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
 
             --radius-sm: 4px;
             --radius: 8px;
             --radius-lg: 14px;
-            --radius-xl: 20px;
 
             --transition: 200ms cubic-bezier(0.4, 0, 0.2, 1);
         }
@@ -59,19 +51,13 @@
         }
 
         body {
-            background-color: var(--ink);
+            background-color: var(--bg);
             color: var(--text-primary);
             font-family: var(--font-body);
             font-weight: 400;
             line-height: 1.7;
             min-height: 100vh;
             overflow-x: hidden;
-
-            /* Subtle grid texture */
-            background-image:
-                linear-gradient(rgba(0,229,255,0.015) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(0,229,255,0.015) 1px, transparent 1px);
-            background-size: 40px 40px;
         }
 
         /* ===== TOPBAR ===== */
@@ -82,23 +68,12 @@
             right: 0;
             z-index: 1000;
             height: 64px;
-            background: rgba(13,13,15,0.85);
+            background: rgba(0,0,0,0.85);
             backdrop-filter: blur(20px) saturate(180%);
             -webkit-backdrop-filter: blur(20px) saturate(180%);
-            border-bottom: 1px solid var(--edge);
+            border-bottom: 1px solid var(--border);
             display: flex;
             align-items: center;
-        }
-
-        .topbar::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, var(--signal), transparent);
-            opacity: 0.4;
         }
 
         .topbar-inner {
@@ -108,10 +83,8 @@
             padding: 0 32px;
             display: flex;
             align-items: center;
-            gap: 0;
         }
 
-        /* Logo / Wordmark */
         .wordmark {
             display: flex;
             align-items: center;
@@ -124,7 +97,7 @@
         .wordmark-icon {
             width: 32px;
             height: 32px;
-            background: linear-gradient(135deg, var(--signal), #0080ff);
+            background: var(--accent);
             border-radius: var(--radius-sm);
             display: flex;
             align-items: center;
@@ -132,24 +105,19 @@
             font-family: var(--font-mono);
             font-size: 13px;
             font-weight: 700;
-            color: var(--ink);
+            color: #ffffff;
             letter-spacing: -0.5px;
             flex-shrink: 0;
         }
 
         .wordmark-text {
-            font-family: var(--font-display);
+            font-family: var(--font-body);
             font-size: 15px;
-            font-weight: 700;
+            font-weight: 600;
             color: var(--text-primary);
-            letter-spacing: 0.3px;
+            letter-spacing: 0.1px;
         }
 
-        .wordmark-text span {
-            color: var(--signal);
-        }
-
-        /* Nav links */
         .topbar-nav {
             display: flex;
             align-items: center;
@@ -166,7 +134,6 @@
             padding: 6px 14px;
             border-radius: var(--radius-sm);
             transition: all var(--transition);
-            letter-spacing: 0.2px;
         }
 
         .topbar-nav a:hover {
@@ -174,34 +141,29 @@
             background: var(--surface-raised);
         }
 
-        /* Spacer */
         .topbar-spacer {
             flex: 1;
         }
 
-        /* GitHub button */
         .btn-github {
             display: flex;
             align-items: center;
             gap: 8px;
             font-size: 13px;
             font-weight: 600;
-            color: var(--ink);
-            background: var(--signal);
+            color: #ffffff;
+            background: var(--accent);
             text-decoration: none;
             border: none;
             padding: 7px 16px;
             border-radius: var(--radius-sm);
             transition: all var(--transition);
-            letter-spacing: 0.3px;
             font-family: var(--font-body);
         }
 
         .btn-github:hover {
-            background: #33eaff;
-            color: var(--ink);
+            background: #409cff;
             transform: translateY(-1px);
-            box-shadow: 0 4px 20px var(--signal-glow);
         }
 
         /* ===== LAYOUT ===== */
@@ -211,9 +173,7 @@
             padding-top: 64px;
         }
 
-        /* ===== MAIN CONTENT ===== */
         .main-content {
-            margin-left: 0;
             flex: 1;
             min-width: 0;
         }
@@ -224,13 +184,7 @@
             padding: 60px 48px 80px;
         }
 
-        /* ===== ARTICLE HEADER ===== */
-        .article-header {
-            margin-bottom: 52px;
-            padding-bottom: 40px;
-            border-bottom: 1px solid var(--edge);
-        }
-
+        /* ===== ARTICLE BADGE ===== */
         .article-badge {
             display: inline-flex;
             align-items: center;
@@ -238,9 +192,9 @@
             font-family: var(--font-mono);
             font-size: 11px;
             font-weight: 500;
-            color: var(--signal);
-            background: var(--signal-faint);
-            border: 1px solid rgba(0,229,255,0.2);
+            color: var(--accent);
+            background: var(--accent-faint);
+            border: 1px solid rgba(41,151,255,0.2);
             padding: 4px 10px;
             border-radius: 100px;
             margin-bottom: 20px;
@@ -251,35 +205,29 @@
             content: '';
             width: 6px;
             height: 6px;
-            background: var(--signal);
+            background: var(--accent);
             border-radius: 50%;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
         }
 
         /* ===== TYPOGRAPHY ===== */
         h1 {
-            font-family: var(--font-display);
-            font-size: clamp(28px, 4vw, 42px);
-            font-weight: 800;
-            line-height: 1.15;
+            font-family: var(--font-body);
+            font-size: clamp(24px, 2.5vw, 32px);
+            font-weight: 700;
+            line-height: 1.2;
             color: var(--text-primary);
-            letter-spacing: -0.5px;
+            letter-spacing: -0.3px;
             margin: 0 0 16px;
         }
 
         h2 {
-            font-family: var(--font-display);
-            font-size: clamp(20px, 2.5vw, 28px);
-            font-weight: 700;
-            line-height: 1.25;
+            font-family: var(--font-body);
+            font-size: clamp(18px, 2vw, 24px);
+            font-weight: 600;
+            line-height: 1.3;
             color: var(--text-primary);
-            letter-spacing: -0.3px;
-            margin: 56px 0 16px;
+            letter-spacing: -0.2px;
+            margin: 52px 0 14px;
             padding-top: 8px;
             position: relative;
         }
@@ -289,44 +237,36 @@
             position: absolute;
             top: 0;
             left: 0;
-            width: 32px;
+            width: 28px;
             height: 2px;
-            background: var(--signal);
+            background: var(--accent);
             border-radius: 1px;
         }
 
         h3 {
-            font-family: var(--font-display);
-            font-size: clamp(16px, 2vw, 20px);
+            font-family: var(--font-body);
+            font-size: clamp(15px, 1.5vw, 18px);
             font-weight: 600;
             color: var(--text-primary);
-            margin: 36px 0 12px;
-            letter-spacing: -0.2px;
+            margin: 32px 0 10px;
+            letter-spacing: -0.1px;
         }
 
         h4, h5, h6 {
             font-family: var(--font-body);
-            font-size: 15px;
+            font-size: 13.5px;
             font-weight: 600;
             color: var(--text-secondary);
-            margin: 28px 0 10px;
+            margin: 24px 0 8px;
             text-transform: uppercase;
             letter-spacing: 0.8px;
         }
 
-        /* First h1 in content — override for article title */
-        main > h1:first-child,
-        .article-title {
-            font-family: var(--font-display);
-            font-size: clamp(32px, 5vw, 36px);
-            font-weight: 800;
-            letter-spacing: -1px;
-            margin: 0 0 16px;
-            line-height: 1.1;
-            background: linear-gradient(135deg, #ffffff 40%, var(--signal) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
+        main > h1:first-child {
+            font-size: clamp(28px, 3vw, 34px);
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            line-height: 1.15;
         }
 
         p {
@@ -348,15 +288,15 @@
 
         /* ===== LINKS ===== */
         main a {
-            color: var(--signal);
+            color: var(--accent);
             text-decoration: none;
-            border-bottom: 1px solid rgba(0,229,255,0.3);
+            border-bottom: 1px solid rgba(41,151,255,0.3);
             transition: all var(--transition);
         }
 
         main a:hover {
-            color: #33eaff;
-            border-bottom-color: var(--signal);
+            color: #409cff;
+            border-bottom-color: var(--accent);
         }
 
         /* ===== LISTS ===== */
@@ -373,11 +313,11 @@
         }
 
         ul li::marker {
-            color: var(--signal);
+            color: var(--accent);
         }
 
         ol li::marker {
-            color: var(--signal);
+            color: var(--accent);
             font-family: var(--font-mono);
             font-size: 13px;
         }
@@ -387,32 +327,20 @@
             font-family: var(--font-mono);
             font-size: 13.5px;
             font-weight: 400;
-            color: var(--signal);
-            background: var(--signal-faint);
-            border: 1px solid rgba(0,229,255,0.15);
+            color: var(--text-code);
+            background: var(--accent-faint);
+            border: 1px solid rgba(41,151,255,0.15);
             padding: 2px 7px;
             border-radius: var(--radius-sm);
         }
 
         pre {
-            background: var(--ink-soft);
-            border: 1px solid var(--edge-bright);
+            background: var(--surface);
+            border: 1px solid var(--border-bright);
             border-radius: var(--radius);
             padding: 24px;
             overflow-x: auto;
             margin: 24px 0;
-            position: relative;
-        }
-
-        pre::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--signal), transparent);
-            border-radius: var(--radius) var(--radius) 0 0;
         }
 
         pre code {
@@ -429,7 +357,7 @@
             overflow-x: auto;
             margin: 28px 0;
             border-radius: var(--radius);
-            border: 1px solid var(--edge-bright);
+            border: 1px solid var(--border-bright);
         }
 
         table {
@@ -445,19 +373,19 @@
             font-family: var(--font-mono);
             font-size: 11.5px;
             font-weight: 500;
-            color: var(--signal);
+            color: var(--accent);
             text-transform: uppercase;
             letter-spacing: 1px;
             padding: 14px 20px;
             text-align: left;
-            border-bottom: 1px solid var(--edge-bright);
+            border-bottom: 1px solid var(--border-bright);
             white-space: nowrap;
         }
 
         td {
             font-size: 14.5px;
             padding: 13px 20px;
-            border-bottom: 1px solid var(--edge);
+            border-bottom: 1px solid var(--border);
             color: var(--text-primary);
         }
 
@@ -466,7 +394,7 @@
         }
 
         tbody tr:hover td {
-            background: var(--signal-faint);
+            background: var(--accent-faint);
         }
 
         /* ===== BLOCKQUOTES ===== */
@@ -479,7 +407,7 @@
         }
 
         blockquote p {
-            color: #e8c76e;
+            color: #e8c06e;
             font-size: 15px;
             margin: 0;
             font-style: italic;
@@ -489,183 +417,13 @@
         hr {
             border: none;
             height: 1px;
-            background: linear-gradient(90deg, transparent, var(--edge-bright), transparent);
+            background: linear-gradient(90deg, transparent, var(--border-bright), transparent);
             margin: 48px 0;
-        }
-
-        /* ===== PAGE NAVIGATION ===== */
-        .page-nav {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-top: 72px;
-            padding-top: 40px;
-            border-top: 1px solid var(--edge);
-        }
-
-        .page-nav-btn {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            padding: 20px 24px;
-            background: var(--surface);
-            border: 1px solid var(--edge-bright);
-            border-radius: var(--radius-lg);
-            text-decoration: none;
-            color: var(--text-primary);
-            transition: all var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .page-nav-btn::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: var(--signal-faint);
-            opacity: 0;
-            transition: opacity var(--transition);
-        }
-
-        .page-nav-btn:hover {
-            border-color: rgba(0,229,255,0.4);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-            color: var(--text-primary);
-        }
-
-        .page-nav-btn:hover::before {
-            opacity: 1;
-        }
-
-        .page-nav-btn.prev {
-            align-items: flex-start;
-        }
-
-        .page-nav-btn.next {
-            align-items: flex-end;
-            text-align: right;
-        }
-
-        .page-nav-label {
-            font-family: var(--font-mono);
-            font-size: 11px;
-            font-weight: 500;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .page-nav-title {
-            font-family: var(--font-display);
-            font-size: 15px;
-            font-weight: 600;
-            color: var(--text-primary);
-            line-height: 1.3;
-            position: relative;
-            z-index: 1;
-        }
-
-        .page-nav-btn.disabled {
-            opacity: 0.3;
-            pointer-events: none;
-            cursor: default;
-        }
-
-        /* ===== MODULE TOC ===== */
-        .module-toc {
-            margin: 40px 0 32px;
-            padding: 20px 24px;
-            background: var(--surface-raised);
-            border: 1px solid var(--edge);
-            border-radius: var(--radius-lg);
-        }
-
-        .module-toc-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            user-select: none;
-            margin-bottom: 12px;
-        }
-
-        .module-toc-header:hover {
-            color: var(--signal);
-        }
-
-        .module-toc-toggle {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 20px;
-            height: 20px;
-            font-size: 12px;
-            transition: transform var(--transition);
-        }
-
-        .module-toc-toggle.collapsed {
-            transform: rotate(-90deg);
-        }
-
-        .module-toc-title {
-            font-family: var(--font-mono);
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-
-        .module-toc-list {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-
-        .module-toc-list.hidden {
-            display: none;
-        }
-
-        .module-toc-item {
-            padding: 0;
-            margin: 0;
-        }
-
-        .module-toc-link {
-            display: block;
-            padding: 8px 12px;
-            font-size: 14px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            border-radius: var(--radius-sm);
-            transition: all var(--transition);
-            border-left: 2px solid transparent;
-        }
-
-        .module-toc-link:hover {
-            color: var(--text-primary);
-            background: var(--signal-faint);
-            border-left-color: var(--signal);
-        }
-
-        .module-toc-link.active {
-            color: var(--signal);
-            background: var(--signal-faint);
-            border-left-color: var(--signal);
-            font-weight: 600;
         }
 
         /* ===== FOOTER ===== */
         .site-footer {
-            margin-left: 0;
-            border-top: 1px solid var(--edge);
+            border-top: 1px solid var(--border);
             padding: 32px 48px;
             display: flex;
             align-items: center;
@@ -679,7 +437,7 @@
         }
 
         .footer-left span {
-            color: var(--signal);
+            color: var(--accent);
         }
 
         .footer-right {
@@ -695,9 +453,9 @@
             width: 44px;
             height: 44px;
             background: var(--surface-high);
-            border: 1px solid var(--edge-bright);
+            border: 1px solid var(--border-bright);
             border-radius: var(--radius);
-            color: var(--signal);
+            color: var(--accent);
             font-size: 18px;
             display: flex;
             align-items: center;
@@ -715,9 +473,9 @@
         }
 
         .scroll-top:hover {
-            background: var(--signal);
-            color: var(--ink);
-            border-color: var(--signal);
+            background: var(--accent);
+            color: #ffffff;
+            border-color: var(--accent);
             transform: translateY(-2px);
         }
 
@@ -737,15 +495,6 @@
                 padding: 28px 20px 48px;
             }
 
-            .page-nav {
-                grid-template-columns: 1fr;
-            }
-
-            .page-nav-btn.next {
-                align-items: flex-start;
-                text-align: left;
-            }
-
             .site-footer {
                 flex-direction: column;
                 gap: 8px;
@@ -753,9 +502,9 @@
                 padding: 24px 20px;
             }
 
-            h1 { font-size: 28px; }
+            h1 { font-size: 26px; }
             h2 { font-size: 20px; }
-            h3 { font-size: 17px; }
+            h3 { font-size: 16px; }
         }
 
         /* ===== SCROLLBAR ===== */
@@ -764,7 +513,7 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: var(--ink);
+            background: var(--bg);
         }
 
         ::-webkit-scrollbar-thumb {
@@ -806,24 +555,14 @@
 
     <!-- ===== LAYOUT ===== -->
     <div class="page-wrapper">
-
-        <!-- MAIN -->
         <div class="main-content">
             <div class="content-wrapper">
 
-                <!-- Article badge (solo si no es home) -->
                 {% if page.url != "/" and page.url != "/index.html" %}
-                <div class="article-badge">CEH v5.0</div>
+                <div class="article-badge">CEH v13</div>
                 {% endif %}
 
-                <!-- Module TOC -->
-                <div id="moduleToc"></div>
-
-                <!-- Contenido del markdown -->
                 {{ content }}
-
-                <!-- NAVEGACIÓN ANTERIOR / SIGUIENTE -->
-                <nav class="page-nav" id="pageNav"></nav>
 
             </div>
         </div>
@@ -832,132 +571,19 @@
     <!-- ===== FOOTER ===== -->
     <footer class="site-footer">
         <div class="footer-left">
-            <span>CEH v5.0</span> Study Materials · Certified Ethical Hacker
+            <span>CEH v13</span> Study Materials · Certified Ethical Hacker
         </div>
         <div class="footer-right">
             <a href="https://github.com/{{ site.github_user }}/{{ site.repository }}" target="_blank" style="color: var(--text-muted); text-decoration: none;">View on GitHub</a>
         </div>
     </footer>
 
-    <!-- SCROLL TO TOP -->
     <button class="scroll-top" id="scrollTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
 
-    <script src="{{ '/nav-data.js' | relative_url }}"></script>
     <script>
-        // Scroll to top button
         window.addEventListener('scroll', () => {
             document.getElementById('scrollTop').classList.toggle('visible', window.scrollY > 400);
         });
-
-        // Build module table of contents
-        function buildModuleToc() {
-            const tocContainer = document.getElementById('moduleToc');
-            if (!tocContainer) return;
-
-            const nav = window.getNavigation();
-            if (!nav.module || nav.modulePages.length <= 1) return;
-
-            const tocDiv = document.createElement('div');
-            tocDiv.className = 'module-toc';
-
-            // Header
-            const header = document.createElement('div');
-            header.className = 'module-toc-header';
-            header.innerHTML = `
-                <span class="module-toc-toggle">▼</span>
-                <span class="module-toc-title">En este módulo</span>
-            `;
-            header.addEventListener('click', () => {
-                const list = tocDiv.querySelector('.module-toc-list');
-                const toggle = tocDiv.querySelector('.module-toc-toggle');
-                list.classList.toggle('hidden');
-                toggle.classList.toggle('collapsed');
-            });
-            tocDiv.appendChild(header);
-
-            // List
-            const list = document.createElement('ul');
-            list.className = 'module-toc-list';
-
-            nav.modulePages.forEach((page, index) => {
-                const li = document.createElement('li');
-                li.className = 'module-toc-item';
-
-                const link = document.createElement('a');
-                link.href = page.url;
-                link.className = 'module-toc-link';
-                if (index === nav.currentIndex) {
-                    link.classList.add('active');
-                }
-                link.textContent = page.title;
-
-                li.appendChild(link);
-                list.appendChild(li);
-            });
-
-            tocDiv.appendChild(list);
-            tocContainer.appendChild(tocDiv);
-        }
-
-        // Build navigation dynamically from nav-data
-        function buildPageNavigation() {
-            const navContainer = document.getElementById('pageNav');
-            if (!navContainer) return;
-
-            const nav = window.getNavigation();
-
-            // Previous button
-            if (nav.prev) {
-                const prevBtn = document.createElement('a');
-                prevBtn.href = nav.prev.url;
-                prevBtn.className = 'page-nav-btn prev';
-                prevBtn.innerHTML = `
-                    <span class="page-nav-label">← Previous</span>
-                    <span class="page-nav-title">${nav.prev.title}</span>
-                `;
-                navContainer.appendChild(prevBtn);
-            } else {
-                const prevBtn = document.createElement('div');
-                prevBtn.className = 'page-nav-btn prev disabled';
-                prevBtn.innerHTML = `
-                    <span class="page-nav-label">← Previous</span>
-                    <span class="page-nav-title">First page in module</span>
-                `;
-                navContainer.appendChild(prevBtn);
-            }
-
-            // Next button
-            if (nav.next) {
-                const nextBtn = document.createElement('a');
-                nextBtn.href = nav.next.url;
-                nextBtn.className = 'page-nav-btn next';
-                nextBtn.innerHTML = `
-                    <span class="page-nav-label">Next →</span>
-                    <span class="page-nav-title">${nav.next.title}</span>
-                `;
-                navContainer.appendChild(nextBtn);
-            } else {
-                const nextBtn = document.createElement('div');
-                nextBtn.className = 'page-nav-btn next disabled';
-                nextBtn.innerHTML = `
-                    <span class="page-nav-label">Next →</span>
-                    <span class="page-nav-title">Last page in module</span>
-                `;
-                navContainer.appendChild(nextBtn);
-            }
-        }
-
-        // Build toc and navigation when nav-data is loaded
-        if (window.NAV_PAGES) {
-            buildModuleToc();
-            buildPageNavigation();
-        } else {
-            // Fallback: wait for nav-data to load
-            document.addEventListener('DOMContentLoaded', () => {
-                buildModuleToc();
-                buildPageNavigation();
-            });
-        }
     </script>
 </body>
 </html>
