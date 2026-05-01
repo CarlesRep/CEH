@@ -7,13 +7,12 @@ github_user: CarlesRep
 repository: ceh-study
 
 # Jekyll
-theme: jekyll-theme-slate
 markdown: kramdown
 kramdown:
   input: GFM
   hard_wrap: false
 
-# Defaults
+# Defaults - IMPORTANTE: Esto hace que todos los archivos usen el layout
 defaults:
   - scope:
       path: ""
@@ -31,3 +30,4 @@ exclude:
   - vendor
   - .git
   - .gitignore
+  - README.md.bak

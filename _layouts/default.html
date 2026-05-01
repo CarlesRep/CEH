@@ -263,6 +263,65 @@
             border-radius: 0 4px 4px 0;
         }
 
+        /* ===== NAVEGACIÓN ENTRE PÁGINAS ===== */
+        .page-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 2px solid var(--border);
+            gap: 20px;
+        }
+
+        .nav-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background-color: var(--card-bg);
+            color: var(--primary);
+            text-decoration: none;
+            border: 2px solid var(--primary);
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            min-width: 140px;
+            justify-content: center;
+        }
+
+        .nav-button:hover {
+            background-color: rgba(0, 212, 255, 0.2);
+            border-color: var(--secondary);
+            color: var(--secondary);
+            transform: translateX(-5px);
+        }
+
+        .nav-button.next:hover {
+            transform: translateX(5px);
+        }
+
+        .nav-button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            border-color: var(--text-muted);
+            color: var(--text-muted);
+        }
+
+        .nav-button:disabled:hover {
+            background-color: var(--card-bg);
+            border-color: var(--text-muted);
+            color: var(--text-muted);
+            transform: none;
+        }
+
+        .nav-spacer {
+            flex: 1;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9em;
+        }
+
         footer {
             background: linear-gradient(135deg, #0a0e27, #1a1f3a);
             border-top: 3px solid var(--primary);
@@ -355,6 +414,14 @@
                 padding: 10px;
             }
 
+            .page-navigation {
+                flex-direction: column;
+            }
+
+            .nav-button {
+                width: 100%;
+            }
+
             .scroll-to-top {
                 bottom: 20px;
                 right: 20px;
@@ -389,6 +456,20 @@
                 padding: 12px;
                 font-size: 0.8em;
             }
+
+            .page-navigation {
+                gap: 10px;
+            }
+
+            .nav-button {
+                padding: 10px 15px;
+                font-size: 0.9em;
+                min-width: auto;
+            }
+
+            .nav-spacer {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -403,9 +484,9 @@
     <nav>
         <div class="nav-content">
             <ul>
-                <li><a href="/">📚 Home</a></li>
-                <li><a href="#modulos">🎯 Módulos</a></li>
-                <li><a href="https://github.com" target="_blank">💻 GitHub</a></li>
+                <li><a href="{{ '/' | relative_url }}">📚 Home</a></li>
+                <li><a href="{{ site.url }}{{ site.baseurl }}/#modulos">🎯 Módulos</a></li>
+                <li><a href="https://github.com/{{ site.github_user }}/{{ site.repository }}" target="_blank">💻 GitHub</a></li>
             </ul>
         </div>
     </nav>
@@ -413,6 +494,33 @@
     <div class="container">
         <main>
             {{ content }}
+
+            <!-- NAVEGACIÓN ENTRE PÁGINAS -->
+            {% if page.previous or page.next %}
+            <nav class="page-navigation">
+                {% if page.previous %}
+                    <a href="{{ page.previous.url | relative_url }}" class="nav-button">
+                        ← Anterior
+                    </a>
+                {% else %}
+                    <button class="nav-button" disabled>← Anterior</button>
+                {% endif %}
+
+                <div class="nav-spacer">
+                    {% if page.url != "/" %}
+                        <span>📖 {{ page.title }}</span>
+                    {% endif %}
+                </div>
+
+                {% if page.next %}
+                    <a href="{{ page.next.url | relative_url }}" class="nav-button next">
+                        Siguiente →
+                    </a>
+                {% else %}
+                    <button class="nav-button next" disabled>Siguiente →</button>
+                {% endif %}
+            </nav>
+            {% endif %}
         </main>
     </div>
 
@@ -422,7 +530,7 @@
             <p>Certified Ethical Hacker - Complete Study Guide</p>
             <p style="margin-top: 20px; font-size: 0.9em;">
                 Last updated: <em>2024</em> | 
-                <a href="https://github.com" target="_blank">View on GitHub</a>
+                <a href="https://github.com/{{ site.github_user }}/{{ site.repository }}" target="_blank">View on GitHub</a>
             </p>
         </div>
     </footer>
